@@ -9,6 +9,7 @@
 struct BinaryNode {
     BinaryNode *parent,*left,*right;
     long int value;
+    BinaryNode(long int v, BinaryNode* p): value(v), parent(p), left(nullptr), right(nullptr){};
 };
 
 

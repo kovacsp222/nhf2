@@ -1,5 +1,6 @@
 #include "ternary_tree.h"
 #include <vector>
+#include <sstream>
 
 TernaryTree::TernaryTree(){
     root=cursor=nullptr;
@@ -31,26 +32,26 @@ void TernaryTree::addValue(long val){
         root=cursor=n;
         return;
     }
-    std::vector<TernaryNode*>prevV;
+    std::vector<TernaryNode*>prevV = {root};
     std::vector<TernaryNode*>nextV;
     while(true){
         for(size_t i=0;i<prevV.size();i++){
             if(prevV[i]->left==nullptr){
                 prevV[i]->left=n;
                 n->parent=prevV[i];
-                break;
+                return;
             }else nextV.push_back(prevV[i]->left);
 
             if(prevV[i]->middle==nullptr){
                 prevV[i]->middle=n;
                 n->parent=prevV[i];
-                break;
+                return;
             }else nextV.push_back(prevV[i]->middle);
 
             if(prevV[i]->right==nullptr){
                 prevV[i]->right=n;
                 n->parent=prevV[i];
-                break;
+                return;
             }else nextV.push_back(prevV[i]->right);
         }
         prevV=nextV;
@@ -136,7 +137,7 @@ void TernaryTree::moveCursor(CursorDirection dir) noexcept(false){
 /*
  * Ez a metódus elvégzi a hármas fán a Knuth-transzformációt.
  */
-BinaryTree &TernaryTree::generateBinaryTree() const {
+BinaryTree TernaryTree::generateBinaryTree() const {
     BinaryTree bt(root);
     return bt;
 }
@@ -145,23 +146,17 @@ BinaryTree &TernaryTree::generateBinaryTree() const {
  * A << operátor kinyomtatja a hármas fa tartalmát.
  */
 std::ostream &operator<<(std::ostream &os, const TernaryTree &tt) {
-    std::ostream o;
-    o<<"PreOrder: ";
-    treeOrderV.resize(0);
-    _preorder();
-    for(size_t i=0; i<treeOrderV.size(); i++){
-        o<<treeOrderV[i]<<", ";
-    }
-    return o;
+    os<<tt.dumpTree();
+    return os;
 }
 
 /*
  * A metódus dumpolja a tárolt hármas fát a feladatkiírásban leírtak szerint
  */
 std::string TernaryTree::dumpTree() const{
-    treeOrderV.resize(0);
-    _preorder();
-    //TODO
+    std::stringstream o;
+    _preorder(root,o);
+    return o.str();
 }
 
 void TernaryTree::_destroy(TernaryNode *n){
@@ -181,9 +176,16 @@ TernaryNode* TernaryTree::_copyOf(TernaryNode* n, TernaryNode* p){
     return x;
 }
 
-void TernaryTree::_preorder(TernaryNode* i) {
-    treeOrderV.push_back(i->value);
-    if(i->left!=nullptr) _preorder(i->left, o);
-    if(i->right!=nullptr) _preorder(i->right, o);
+std::ostream& TernaryTree::_preorder(TernaryNode* i, std::ostream& o) const{
+    if (i == nullptr) o<<"(-";
+    else {
+        o<<"("<<i->value;
+        if(i->left||i->middle||i->right){
+            _preorder(i->left, o);
+            _preorder(i->middle, o);
+            _preorder(i->right, o);
+        }
+    }
+    o<<")";
     return o;
 }

@@ -29,14 +29,9 @@ TernaryApp::~TernaryApp() {
  * a művelet előtti állapotra.
  */
 void TernaryApp::processCommandLine(std::string command_line) noexcept(false) {
+    //TODO: szamok
     for(char c : command_line){
-        //TODO: Ellenorzesek
-        //TODO: visszaallitas
-        if(isdigit(c)){
-            //TODO: Nagyobb szam
-            tree->addValue(c);
-        }
-        else if(c=='T'){
+        if(c=='T'){
             tree->moveCursor(top);
         }
         else if(c=='U'){

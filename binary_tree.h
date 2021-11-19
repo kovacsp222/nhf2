@@ -11,6 +11,10 @@
 #include "ternary_node.h"
 
 class BinaryTree {
+    BinaryNode* _knuth(BinaryNode *n, BinaryNode *p);
+    void _destroy(BinaryNode* n);
+    BinaryNode* _copyOf(BinaryNode *n, BinaryNode *p);
+    std::ostream& _preorder(BinaryNode* i, std::ostream& o) const;
 protected:
     BinaryNode *root;
 public:

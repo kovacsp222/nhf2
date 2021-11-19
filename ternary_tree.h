@@ -7,7 +7,6 @@
 
 #include <ostream>
 #include <string>
-#include <vector>
 #include "ternary_node.h"
 #include "binary_tree.h"
 #include "exceptions.h"
@@ -15,10 +14,9 @@
 enum CursorDirection {top, up, left, middle, right};
 
 class TernaryTree {
-    std::vector<long int>treeOrderV;
     void _destroy(TernaryNode* n);
     TernaryNode* _copyOf(TernaryNode *n, TernaryNode *p);
-    void _preorder(TernaryNode* i);
+    std::ostream& _preorder(TernaryNode* i, std::ostream& o) const;
 protected:
     TernaryNode *root, *cursor;
 public:
@@ -30,7 +28,7 @@ public:
     void rotateClockwise() noexcept(false);
     void rotateAnticlockwise() noexcept(false);
     void moveCursor(CursorDirection dir) noexcept(false);
-    BinaryTree& generateBinaryTree() const;
+    BinaryTree generateBinaryTree() const;
     std::string dumpTree() const;
     friend std::ostream& operator<<(std::ostream& os, const TernaryTree& tt);
 };

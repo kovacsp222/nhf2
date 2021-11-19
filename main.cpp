@@ -145,6 +145,31 @@ TEST("TernaryTree - Rotate anticlockwise", 3) {
     }
 }
 
+
+TEST("TernaryTree - Left fill after rotation", 2) {
+    {
+        TernaryTree t;
+        for (long int i = 1l; i <= 6l; i++) {
+            t.addValue(i);
+        }
+
+        t.rotateClockwise();
+        t.addValue(7);
+        t.addValue(8);
+        t.addValue(9);
+        t.addValue(10);
+        t.addValue(11);
+        t.addValue(12);
+        t.addValue(13);
+        t.addValue(14);
+
+        std::string result = t.dumpTree();
+        std::string expected = "(2(5(7(14)(-)(-))(8)(9))(6(10)(11)(12))(1(13)(3)(4)))";
+
+        CHECK_EQ(result, expected);
+    }
+}
+
 TEST("TernaryTree - Binary tree conversion", 2) {
     {
         TernaryTree t;
