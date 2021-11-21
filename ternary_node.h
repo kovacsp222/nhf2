@@ -10,7 +10,8 @@ struct TernaryNode {
     TernaryNode *parent, *left, *middle, *right;
     long int value;
 
-    TernaryNode(long int v, TernaryNode* p): value(v), parent(p), left(nullptr), middle(nullptr), right(nullptr){};
+    TernaryNode(): parent(nullptr), left(nullptr), middle(nullptr), right(nullptr), value(0){};
+    TernaryNode(long int v, TernaryNode* p): parent(p), left(nullptr), middle(nullptr), right(nullptr), value(v){};
 };
 
 

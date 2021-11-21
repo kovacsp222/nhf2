@@ -29,10 +29,17 @@ std::string BinaryTree::dumpTree() const {
     return o.str();
 }
 
-BinaryNode* _knuth(BinaryNode *n, BinaryNode *p){
-    BinaryNode* newN=new BinaryNode();
-    //TODO: newN->right=_knuth(n.kovTestver, newN);
-    //TODO: newN->left=_knuth(n.elsoGyerek, newN);
+BinaryNode* BinaryTree::_knuth(TernaryNode *n, BinaryNode *p){
+    if(n==nullptr) return nullptr;
+
+    auto *newN = new BinaryNode(n->value, p);
+    if(n->parent!=nullptr) {
+        if (n->parent->middle==n) newN->right=_knuth(n->parent->right, newN);
+        else if (n->parent->left==n) newN->right=_knuth(n->parent->middle, newN);
+    }
+    if(n->left) newN->left=_knuth(n->left, newN);
+    else if(n->middle) newN->left=_knuth(n->middle, newN);
+    else if(n->right) newN->left=_knuth(n->right, newN);
     return newN;
 }
 
@@ -40,6 +47,7 @@ void BinaryTree::_destroy(BinaryNode *n){
     if(n!=nullptr){
         _destroy(n->left);
         _destroy(n->right);
+        delete n;
     }
 }
 
@@ -63,5 +71,3 @@ std::ostream& BinaryTree::_preorder(BinaryNode* i, std::ostream& o) const{
     o<<")";
     return o;
 }
-
-

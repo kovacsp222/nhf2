@@ -5,11 +5,6 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-class EmptyException : public std::exception {
-public:
-    const char *what() const noexcept { return "The Tree is empty"; }
-};
-
 class NoLeftChildException : public std::exception {
 public:
     const char *what() const noexcept { return "Node's left child does not exists"; }

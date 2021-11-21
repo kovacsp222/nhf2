@@ -28,31 +28,31 @@ TernaryTree::~TernaryTree() {
  */
 void TernaryTree::addValue(long val){
     auto* n=new TernaryNode(val, nullptr);
-    if(root==nullptr){
-        root=cursor=n;
-        return;
-    }
-    std::vector<TernaryNode*>prevV = {root};
+    if(root==nullptr){ root=cursor=n; return; }
+
+    std::vector<TernaryNode*>prevV;
     std::vector<TernaryNode*>nextV;
+    prevV.push_back(root);
+
     while(true){
-        for(size_t i=0;i<prevV.size();i++){
-            if(prevV[i]->left==nullptr){
-                prevV[i]->left=n;
-                n->parent=prevV[i];
+        for(auto & i : prevV){
+            if(i->left==nullptr){
+                i->left=n;
+                n->parent=i;
                 return;
-            }else nextV.push_back(prevV[i]->left);
+            }else nextV.push_back(i->left);
 
-            if(prevV[i]->middle==nullptr){
-                prevV[i]->middle=n;
-                n->parent=prevV[i];
+            if(i->middle==nullptr){
+                i->middle=n;
+                n->parent=i;
                 return;
-            }else nextV.push_back(prevV[i]->middle);
+            }else nextV.push_back(i->middle);
 
-            if(prevV[i]->right==nullptr){
-                prevV[i]->right=n;
-                n->parent=prevV[i];
+            if(i->right==nullptr){
+                i->right=n;
+                n->parent=i;
                 return;
-            }else nextV.push_back(prevV[i]->right);
+            }else nextV.push_back(i->right);
         }
         prevV=nextV;
         nextV.clear();
@@ -65,7 +65,7 @@ void TernaryTree::addValue(long val){
  * "felforgatna" a metódus.
  */
 void TernaryTree::rotateAnticlockwise() noexcept(false) {
-    if(cursor==nullptr) throw EmptyException();
+    if(cursor==nullptr) throw NoRightChildException();
 
     TernaryNode* x=cursor->right;
     if(cursor->right==nullptr) throw NoRightChildException();
@@ -88,7 +88,7 @@ void TernaryTree::rotateAnticlockwise() noexcept(false) {
  * "felforgatna" a metódus
  */
 void TernaryTree::rotateClockwise() noexcept(false) {
-    if(cursor==nullptr) throw EmptyException();
+    if(cursor==nullptr) throw NoLeftChildException();
 
     TernaryNode* x=cursor->left;
     if(cursor->left==nullptr) throw NoLeftChildException();
@@ -113,8 +113,7 @@ void TernaryTree::rotateClockwise() noexcept(false) {
  */
 void TernaryTree::moveCursor(CursorDirection dir) noexcept(false){
     if(dir==top){
-        if(root==nullptr) throw EmptyException();
-        else cursor=root;
+        cursor=root;
     }
     else if(dir==up){
         if(cursor->parent==nullptr) throw NoParentException();
@@ -164,6 +163,7 @@ void TernaryTree::_destroy(TernaryNode *n){
         _destroy(n->left);
         _destroy(n->middle);
         _destroy(n->right);
+        delete n;
     }
 }
 

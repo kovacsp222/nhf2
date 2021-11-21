@@ -1,7 +1,3 @@
-//
-// Created by balin on 10/25/2021.
-//
-
 #ifndef TERNARY_APP_H
 #define TERNARY_APP_H
 
